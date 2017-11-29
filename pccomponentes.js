@@ -1,6 +1,9 @@
 'use strict';
 
 var config = require('./config.json');
+
+var database = require('./Database');
+var models = require('./models');
 var request = require('request');
 var fs = require('fs');
 
@@ -32,18 +35,28 @@ function parse(file) {
       "priceWithVat": parseFloat(parts[4]),
       "inStock": parts[5] === 'Si',
       "ean": parts[8],
+      "brand": parts[10],
       "canon": parseFloat(parts[11])
     };
-    //save product in database
-    console.log(product);
+
+    models.Product.create({
+      title: product.title,
+      created: new Date()
+    }).then(function() {
+      //console.log('product saved');
+    });
+
   });
 }
 
-
-download(config.pccomponentes.url)
+database.connect()
+  .then( () => {
+    return download(config.pccomponentes.url);
+  })
   .then(file => {
     parse(file);
   })
   .catch(err => {
+    console.log(err);
     process.exit(1);
   });
