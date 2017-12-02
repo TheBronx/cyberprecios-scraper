@@ -9,9 +9,11 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "line-by-line": "^0.1.5",
     "pg": "^6.4.2",
     "pg-hstore": "^2.3.2",
     "request": "^2.83.0",
-    "sequelize": "^4.23.2"
+    "sequelize": "^4.23.2",
+    "sqlite3": "^3.1.13"
   }
 }

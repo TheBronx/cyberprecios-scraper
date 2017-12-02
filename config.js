@@ -1,17 +1,17 @@
 module.exports = {
   development: {
-    dialect: "sqlite",
-    storage: "./db.development.sqlite"
+    dialect: 'sqlite',
+    storage: './db.development.sqlite'
   },
   test: {
-    dialect: "sqlite",
-    storage: ":memory:"
+    dialect: 'sqlite',
+    storage: ':memory:'
   },
   production: {
-    username: "postgres",
-    password: "mysecretpassword",
-    database: "example",
-    host: "localhost",
+    username: 'postgres',
+    password: 'mysecretpassword',
+    database: 'example',
+    host: 'localhost',
     dialect: 'postgres',
     pool: {
       max: 5,
