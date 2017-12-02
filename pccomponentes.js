@@ -3,7 +3,7 @@
 var config = require('./config.json');
 
 var database = require('./Database');
-var models = require('./models');
+var productsRepository = require('./ProductsRepository');
 var request = require('request');
 var LineByLineReader = require('line-by-line');
 var fs = require('fs');
@@ -40,15 +40,14 @@ function parse(file) {
       'canon': parseFloat(parts[11])
     };
 
-    models.Product.create({
-      title: product.title,
-      created: new Date()
-    }).then(function() {
-      lineReader.resume();
-    }).catch(function(err) {
-      console.log(err);
-      lineReader.resume();
-    });
+    productsRepository.saveProductPrice(product)
+      .then(function() {
+        lineReader.resume();
+      }).catch(function(err) {
+        console.log(err);
+        lineReader.resume();
+      });
+
   });
 
   lineReader.on('error', function (err) {
