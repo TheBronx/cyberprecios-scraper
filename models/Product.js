@@ -15,12 +15,22 @@ module.exports = (sequelize, DataTypes) => {
 
     category: DataTypes.STRING,
 
-    title: DataTypes.STRING
+    title: DataTypes.STRING,
+
+    description: DataTypes.TEXT,
+
+    pccomponentesURL: DataTypes.STRING,
+
+    amazonURL: DataTypes.STRING
 
   });
 
   Product.associate = function (models) {
     models.Product.hasMany(models.Price, {foreignKey: 'productId', sourceKey: 'id'});
+  };
+
+  Product.associate = function (models) {
+    models.Product.hasMany(models.Picture, {foreignKey: 'productId', sourceKey: 'id'});
   };
 
   return Product;

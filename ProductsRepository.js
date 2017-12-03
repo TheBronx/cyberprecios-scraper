@@ -12,6 +12,9 @@ function createProduct(productDTO) {
     models.Product.create({
       category: productDTO.category,
       title: productDTO.title,
+      description: productDTO.description || null,
+      pccomponentesURL: productDTO.pccomponentesURL || null,
+      amazonURL: productDTO.amazonURL || null,
       pccomponentesId: productDTO.id,
       ean: fixEanLength(productDTO.ean)
     }).then(product => {
@@ -61,7 +64,33 @@ function saveProductPrice(productDTO) {
   });
 }
 
+/*
+Incomplete means:
+  - without description
+  - without amazon url
+  - without pccomponentes url
+  - without photos
+
+But we just search for products without description for now
+*/
+function findIncompleteProducts(pageSize, pageNumber) {
+  return new Promise((resolve, reject) => {
+    models.Product.findAll({
+      where: {
+        description: null
+      },
+      offset: (pageNumber-1)*pageSize,
+      limit: pageSize
+    }).then(products => {
+      resolve(products);
+    }).catch(err => {
+      reject(err);
+    });
+  });
+}
+
 module.exports = {
   createOrRetrieveProduct: createOrRetrieveProduct,
-  saveProductPrice: saveProductPrice
+  saveProductPrice: saveProductPrice,
+  findIncompleteProducts: findIncompleteProducts
 };
