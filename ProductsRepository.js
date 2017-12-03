@@ -50,6 +50,7 @@ function saveProductPrice(productDTO) {
       models.Price.create({
         productId: product.id,
         price: productDTO.price,
+        priceWithTaxes: productDTO.priceWithVat + productDTO.canon,
         stock: productDTO.inStock
       });
     }).then(price => {

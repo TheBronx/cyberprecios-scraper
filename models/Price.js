@@ -9,6 +9,10 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.DECIMAL
     },
 
+    priceWithTaxes: {
+      type: DataTypes.DECIMAL
+    },
+
     stock: DataTypes.BOOLEAN
 
   });
