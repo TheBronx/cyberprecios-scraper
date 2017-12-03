@@ -28,25 +28,30 @@ function parse(file) {
   	lineReader.pause();
 
     var parts = line.replace(/"/gi, '').split(';');
-    var product = {
-      'id': parseInt(parts[0], 10),
-      'category': parts[1],
-      'title': parts[2],
-      'price': parseFloat(parts[3]),
-      'priceWithVat': parseFloat(parts[4]),
-      'inStock': parts[5] === 'Si',
-      'ean': parts[8],
-      'brand': parts[10],
-      'canon': parseFloat(parts[11])
-    };
+    if (parts.length < 12) {
+      //does not look like a Product
+      lineReader.resume();
+    } else {
+      var product = {
+        'id': parseInt(parts[0], 10),
+        'category': parts[1],
+        'title': parts[2],
+        'price': parseFloat(parts[3]),
+        'priceWithVat': parseFloat(parts[4]),
+        'inStock': parts[5] === 'Si',
+        'ean': parts[8],
+        'brand': parts[10],
+        'canon': parseFloat(parts[11])
+      };
 
-    productsRepository.saveProductPrice(product)
-      .then(function() {
-        lineReader.resume();
-      }).catch(function(err) {
-        console.log(err);
-        lineReader.resume();
-      });
+      productsRepository.saveProductPrice(product)
+        .then(function() {
+          lineReader.resume();
+        }).catch(function(err) {
+          console.log(err);
+          lineReader.resume();
+        });
+    }
 
   });
 
