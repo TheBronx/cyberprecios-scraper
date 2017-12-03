@@ -2,13 +2,18 @@
 
 var models = require('./models');
 
+function fixEanLength(ean) {
+  while(ean.length < 13) ean = '0' + ean;
+  return ean;
+}
+
 function createProduct(productDTO) {
   return new Promise((resolve, reject) => {
     models.Product.create({
       category: productDTO.category,
       title: productDTO.title,
       pccomponentesId: productDTO.id,
-      ean: productDTO.ean
+      ean: fixEanLength(productDTO.ean)
     }).then(product => {
       resolve(product);
     }).catch(err => {
