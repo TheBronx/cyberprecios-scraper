@@ -65,6 +65,11 @@ function parse(file) {
 
 }
 
+database.connect().then(() => {
+  parse('prices.csv');
+});
+
+/*
 database.connect()
   .then( () => {
     return download(config.pccomponentes.url);
@@ -76,3 +81,4 @@ database.connect()
     console.log(err);
     process.exit(1);
   });
+*/

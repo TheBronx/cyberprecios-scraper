@@ -69,15 +69,15 @@ Incomplete means:
   - without description
   - without amazon url
   - without pccomponentes url
-  - without photos
-
-But we just search for products without description for now
+  - without photos //no need to query for this too
 */
 function findIncompleteProducts(pageSize, pageNumber) {
   return new Promise((resolve, reject) => {
     models.Product.findAll({
       where: {
-        description: null
+        description: null,
+        pccomponentesURL: null,
+        amazonURL: null
       },
       offset: (pageNumber-1)*pageSize,
       limit: pageSize
@@ -89,8 +89,19 @@ function findIncompleteProducts(pageSize, pageNumber) {
   });
 }
 
+function savePcComponentesUrl(product, url) {
+  return models.Product.update({
+    pccomponentesURL: url
+  }, {
+    where: {
+      id: product.id
+    }
+  });
+}
+
 module.exports = {
   createOrRetrieveProduct: createOrRetrieveProduct,
   saveProductPrice: saveProductPrice,
-  findIncompleteProducts: findIncompleteProducts
+  findIncompleteProducts: findIncompleteProducts,
+  savePcComponentesUrl: savePcComponentesUrl
 };
