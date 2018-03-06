@@ -34,7 +34,7 @@ function parse(file) {
     } else {
       var product = {
         'id': parseInt(parts[0], 10),
-        'category': parts[1],
+        'category': parts[1] ? parts[1] : 'Sin categoría',
         'title': parts[2],
         'price': parseFloat(parts[3]),
         'priceWithVat': parseFloat(parts[4]),

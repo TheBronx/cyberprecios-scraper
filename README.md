@@ -11,5 +11,8 @@ Login into PostgreSQL: `psql -U postgres`
 `postgres-# CREATE DATABASE example;
 postgres-# \q`
 
-# Execute scraper
-Run `node pccomponentes.js` or `NODE_ENV=production node pccomponentes.js` for production.
+# Execute PCComponentes scraper
+Run `node pccomponentesPricesParser.js` or `NODE_ENV=production node pccomponentesPricesParser.js` for production.
+
+# Execute products completer
+Run `node productsCompleter.js` or `NODE_ENV=production node productsCompleter.js` for production.
