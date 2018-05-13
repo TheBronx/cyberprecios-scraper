@@ -45,8 +45,11 @@ function retrieveAllProductDetails(products) {
                 //console.log(amazonProduct.ItemAttributes[0].Title[0]);
                 product.amazonURL = amazonProduct.DetailPageURL[0];
                 if (amazonProduct.LargeImage) {
-                  //TODO save images
-                  //console.log(amazonProduct.LargeImage[0].URL[0]);
+                  product.pictures = [
+                    {
+                      url: amazonProduct.LargeImage[0].URL[0]
+                    }
+                  ];
                 }
                 if (amazonProduct.ItemAttributes[0].ListPrice) {
                   //TODO save price

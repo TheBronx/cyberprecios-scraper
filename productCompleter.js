@@ -42,6 +42,7 @@ function fillProducts(products) {
         resolve(products);
       })
       .catch(err => {
+        console.log(err);
         reject(err);
       });
   });

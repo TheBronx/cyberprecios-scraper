@@ -64,6 +64,23 @@ function saveProductPrice(productDTO) {
   });
 }
 
+function saveProductPictures(product, pictureDTOs) {
+  var p = Promise.resolve();
+
+  pictureDTOs.forEach(function(pictureDTO) {
+    p = p.then(function(){ return saveProductPicture(product, pictureDTO); });
+  });
+
+  return p;
+}
+
+function saveProductPicture(product, pictureDTO) {
+  return models.Picture.create({
+    productId: product.id,
+    url: pictureDTO.url
+  });
+}
+
 /*
 Incomplete means:
   - without description
@@ -99,14 +116,26 @@ function savePcComponentesUrl(product, url) {
   });
 }
 
-function updateProductDetails(product) {
-  return models.Product.update({
-    amazonURL: product.amazonURL,
-    description: product.description
-  }, {
-    where: {
-      id: product.id
-    }
+function updateProductDetails(productDTO) {
+  return new Promise((resolve, reject) => {
+    models.Product.update({
+      amazonURL: productDTO.amazonURL,
+      description: productDTO.description
+    }, {
+      where: {
+        id: productDTO.id
+      }
+    })
+    .then(product => {
+      saveProductPictures(productDTO, productDTO.pictures);
+    })
+    .then(() => {
+      resolve(productDTO);
+    })
+    .catch(err => {
+      console.log(err);
+      reject(err);
+    });
   });
 }
 
@@ -114,6 +143,7 @@ function updateProductsDetails(products) {
   var p = Promise.resolve();
 
   products.forEach(function(product) {
+    if (!product.pictures) product.pictures = [];
     p = p.then(function(){ return updateProductDetails(product); });
   });
 
@@ -123,6 +153,8 @@ function updateProductsDetails(products) {
 module.exports = {
   createOrRetrieveProduct: createOrRetrieveProduct,
   saveProductPrice: saveProductPrice,
+  saveProductPicture: saveProductPicture,
+  saveProductPictures: saveProductPictures,
   findIncompleteProducts: findIncompleteProducts,
   savePcComponentesUrl: savePcComponentesUrl,
   updateProductsDetails: updateProductsDetails
