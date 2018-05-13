@@ -3,6 +3,7 @@
 var database = require('./Database');
 var productsRepository = require('./ProductsRepository');
 var pccomponentes = require('./PcComponentes');
+var amazon = require('./Amazon');
 
 // get description
 // get images
@@ -10,8 +11,13 @@ var pccomponentes = require('./PcComponentes');
 // get amazon url
 function fillProductDetails(products) {
   return new Promise((resolve, reject) => {
-    //TODO query the amazon API to find out the details of the products
-    resolve(products);
+    amazon.retrieveAndSaveAllProductDetails(products)
+      .then(products => {
+        resolve(products);
+      })
+      .catch(err => {
+        reject(err);
+      });
   });
 }
 
@@ -29,7 +35,7 @@ function fillPcComponentesUrl(products) {
 function fillProducts(products) {
   return new Promise((resolve, reject) => {
     fillPcComponentesUrl(products)
-      .then(products => {
+      .then(() => {
         return fillProductDetails(products);
       })
       .then(() => {

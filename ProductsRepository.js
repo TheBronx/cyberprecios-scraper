@@ -99,9 +99,31 @@ function savePcComponentesUrl(product, url) {
   });
 }
 
+function updateProductDetails(product) {
+  return models.Product.update({
+    amazonURL: product.amazonURL,
+    description: product.description
+  }, {
+    where: {
+      id: product.id
+    }
+  });
+}
+
+function updateProductsDetails(products) {
+  var p = Promise.resolve();
+
+  products.forEach(function(product) {
+    p = p.then(function(){ return updateProductDetails(product); });
+  });
+
+  return p;
+}
+
 module.exports = {
   createOrRetrieveProduct: createOrRetrieveProduct,
   saveProductPrice: saveProductPrice,
   findIncompleteProducts: findIncompleteProducts,
-  savePcComponentesUrl: savePcComponentesUrl
+  savePcComponentesUrl: savePcComponentesUrl,
+  updateProductsDetails: updateProductsDetails
 };

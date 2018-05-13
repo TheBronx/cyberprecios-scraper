@@ -1,5 +1,12 @@
 {
   "pccomponentes": {
-    "url": "https://www.pccomponentes.com/usuarios/panel/descargar-tarifa/descarga/{yourhash}"
+    "url": "https://www.pccomponentes.com/usuarios/panel/descargar-tarifa/descarga/{your-hash}"
+  },
+  "amazon": {
+    "awsId":     "ABC123",
+    "awsSecret": "abc.123",
+    "assocId":   "your-id",
+    "locale":    "ES",
+    "maxRequestsPerSecond": 1
   }
 }

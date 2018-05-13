@@ -17,7 +17,8 @@ function retrieveProductUrl(product) {
       else {
         if (response && (response.statusCode === 200)) {
           var parsed = JSON.parse(body);
-          resolve(parsed.results[0].link);
+          if (!parsed || parsed.results.length === 0) reject(new Error('PcComponentes search returned 0 results for product ' + product.pccomponentesId));
+          else resolve(parsed.results[0].link);
         } else {
           reject(new Error('PcComponentes search returned an error'));
         }
@@ -36,7 +37,10 @@ function retrieveAndSaveProductUrl(product) {
         resolve(product);
       })
       .catch(err => {
-        reject(err);
+        //reject(err);
+        console.log(err);
+        //TODO flag this product with an "error"=true so we don't process is again (see ProductsRepository to ignore incomplete and error products)
+        resolve(product); //ignore this error, its not critical, we can continue processing products
       });
   });
 }
